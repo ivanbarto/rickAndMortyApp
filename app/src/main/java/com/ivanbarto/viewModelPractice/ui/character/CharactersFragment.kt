@@ -1,14 +1,26 @@
 package com.ivanbarto.viewModelPractice.ui.character
 
 import android.os.Bundle
-import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.fragment.app.Fragment
+import androidx.fragment.app.viewModels
 import com.ivanbarto.viewModelPractice.R
+import com.ivanbarto.viewModelPractice.data.DataSource
+import com.ivanbarto.viewModelPractice.domain.RepoImpl
+import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
 
 
 class CharactersFragment : Fragment() {
+
+    private val viewModel by viewModels<CharactersViewModel> {
+        CharactersViewModelFactory(
+            RepoImpl(
+                dataSource = DataSource()
+            )
+        )
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
