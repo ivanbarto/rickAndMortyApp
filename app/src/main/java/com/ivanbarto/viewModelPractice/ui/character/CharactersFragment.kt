@@ -18,6 +18,7 @@ import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.databinding.FragmentCharactersBinding
 import com.ivanbarto.viewModelPractice.domain.RepoImpl
 import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
+import com.ivanbarto.viewModelPractice.utils.constants.Constants
 import com.ivanbarto.viewModelPractice.vo.Resource
 
 
@@ -30,8 +31,12 @@ class CharactersFragment : Fragment() {
 
 
     private val onCharacterClick: (character: Character) -> Unit = {
-        Log.d("onCharacterClick=====>", "$it")
-        findNavController().navigate(R.id.action_charactersFragment_to_characterDetailsFragment)
+        val bundle =
+            Bundle().also { parcelable -> parcelable.putParcelable(Constants.CHARACTER_KEY, it) }
+        findNavController().navigate(
+            R.id.action_charactersFragment_to_characterDetailsFragment,
+            bundle
+        )
     }
 
     private val charactersViewModel by viewModels<CharactersViewModel> {

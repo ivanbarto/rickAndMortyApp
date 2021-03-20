@@ -1,5 +1,9 @@
 package com.ivanbarto.viewModelPractice.data.model
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Location(
     val id: Long,
     val name: String,
@@ -8,4 +12,4 @@ data class Location(
     val residents: List<String>,
     val url: String,
     val created: String
-)
+) : Parcelable

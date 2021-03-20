@@ -1,5 +1,10 @@
 package com.ivanbarto.viewModelPractice.data.model
 
+import android.os.Parcelable
+import androidx.versionedparcelable.VersionedParcelize
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Character(
     val id: Long,
     val name: String,
@@ -13,4 +18,4 @@ data class Character(
     val episode: List<String>,
     val url: String,
     val created: String
-)
+) : Parcelable
