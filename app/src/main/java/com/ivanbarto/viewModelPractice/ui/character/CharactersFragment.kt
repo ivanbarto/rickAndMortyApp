@@ -5,22 +5,36 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.Observer
+import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.google.android.material.snackbar.Snackbar
 import com.ivanbarto.viewModelPractice.R
 import com.ivanbarto.viewModelPractice.data.DataSource
 import com.ivanbarto.viewModelPractice.data.model.Character
+import com.ivanbarto.viewModelPractice.databinding.FragmentCharactersBinding
 import com.ivanbarto.viewModelPractice.domain.RepoImpl
 import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
+import com.ivanbarto.viewModelPractice.vo.Resource
 
 
 class CharactersFragment : Fragment() {
-
-    private val onCharacterClick : (character : Character) -> Unit = {
-        Log.d("onCharacterClick=====>", "$it")
+    companion object {
+        val TAG = this::class
     }
 
-    private val viewModel by viewModels<CharactersViewModel> {
+    lateinit var binding: FragmentCharactersBinding
+
+
+    private val onCharacterClick: (character: Character) -> Unit = {
+        Log.d("onCharacterClick=====>", "$it")
+        findNavController().navigate(R.id.action_charactersFragment_to_characterDetailsFragment)
+    }
+
+    private val charactersViewModel by viewModels<CharactersViewModel> {
         CharactersViewModelFactory(
             RepoImpl(
                 dataSource = DataSource()
@@ -31,15 +45,73 @@ class CharactersFragment : Fragment() {
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
-    ): View? {
-        // Inflate the layout for this fragment
+    ): View {
 
-        CharactersAdapter(requireContext()).onCharacterClick = this.onCharacterClick
+        binding = FragmentCharactersBinding.inflate(layoutInflater, container, false)
 
-        return inflater.inflate(R.layout.fragment_characters, container, false)
+        return binding.root
     }
 
-    companion object {
-        val TAG = this::class
+    override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
+        super.onViewCreated(view, savedInstanceState)
+
+        /**
+         *ViewModel Observers
+         */
+        charactersViewModel.fetchCharacters.observe(viewLifecycleOwner, { result ->
+            when (result) {
+                is Resource.Loading -> {
+                    Snackbar.make(
+                        requireContext(),
+                        binding.root,
+                        getString(R.string.loading),
+                        Snackbar.LENGTH_SHORT
+                    ).also {
+                        it.setBackgroundTint(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.successColor
+                            )
+                        )
+                        it.setTextColor(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.black
+                            )
+                        )
+                    }.show()
+                }
+                is Resource.Success -> {
+                    setupCharacters(result.data)
+                }
+                is Resource.Failure -> {
+                    Snackbar.make(
+                        requireContext(),
+                        binding.root,
+                        getString(R.string.failure),
+                        Snackbar.LENGTH_SHORT
+                    ).also {
+                        it.setBackgroundTint(
+                            ContextCompat.getColor(
+                                requireContext(),
+                                R.color.errorColor
+                            )
+                        )
+                    }.show()
+                }
+            }
+
+        })
+
     }
+
+    private fun setupCharacters(characters: List<Character>) {
+        binding.rvCharacters.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvCharacters.adapter = CharactersAdapter(requireContext()).also {
+            it.onCharacterClick = onCharacterClick
+            it.setCharacters(characters)
+        }
+    }
+
 }

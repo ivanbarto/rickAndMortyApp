@@ -4,19 +4,20 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/nav_graph"
     app:startDestination="@id/charactersFragment">
-
     <fragment
         android:id="@+id/charactersFragment"
         android:name="com.ivanbarto.viewModelPractice.ui.character.CharactersFragment"
-        android:label="Characters"
-        tools:layout="@layout/fragment_characters">
+        android:label="fragment_characters"
+        tools:layout="@layout/fragment_characters" >
         <action
             android:id="@+id/action_charactersFragment_to_characterDetailsFragment"
-            app:destination="@id/characterDetailsFragment" />
+            app:destination="@id/characterDetailsFragment"
+            app:enterAnim="@android:anim/slide_in_left"
+            app:popExitAnim="@anim/nav_default_exit_anim" />
     </fragment>
     <fragment
         android:id="@+id/characterDetailsFragment"
         android:name="com.ivanbarto.viewModelPractice.ui.character.detail.CharacterDetailsFragment"
-        android:label="Character Details"
+        android:label="fragment_charater_details"
         tools:layout="@layout/fragment_charater_details" />
 </navigation>

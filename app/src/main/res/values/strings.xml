@@ -2,4 +2,7 @@
     <string name="app_name">View Model Practice</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="failure">We found a problem &#128557;</string>
+    <string name="loading">Loading data &#128295; …</string>
+
 </resources>
