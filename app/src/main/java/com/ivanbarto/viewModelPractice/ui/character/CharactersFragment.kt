@@ -1,14 +1,12 @@
 package com.ivanbarto.viewModelPractice.ui.character
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.lifecycle.Observer
 import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
@@ -16,7 +14,7 @@ import com.ivanbarto.viewModelPractice.R
 import com.ivanbarto.viewModelPractice.data.DataSource
 import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.databinding.FragmentCharactersBinding
-import com.ivanbarto.viewModelPractice.domain.RepoImpl
+import com.ivanbarto.viewModelPractice.domain.CharacterRepo
 import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
 import com.ivanbarto.viewModelPractice.utils.constants.Constants
 import com.ivanbarto.viewModelPractice.vo.Resource
@@ -39,9 +37,12 @@ class CharactersFragment : Fragment() {
         )
     }
 
+    /**
+     * View Models
+     */
     private val charactersViewModel by viewModels<CharactersViewModel> {
         CharactersViewModelFactory(
-            RepoImpl(
+            CharacterRepo(
                 dataSource = DataSource()
             )
         )
@@ -62,6 +63,16 @@ class CharactersFragment : Fragment() {
 
         /**
          *ViewModel Observers
+         */
+        setupObservers()
+
+    }
+
+
+    private fun setupObservers() {
+        /**
+         * viewLifecycleOwner is for attach the observer to this fragment lifecycle, so if the fragment
+         * is detached, the observer is detached as well
          */
         charactersViewModel.fetchCharacters.observe(viewLifecycleOwner, { result ->
             when (result) {
@@ -107,8 +118,8 @@ class CharactersFragment : Fragment() {
             }
 
         })
-
     }
+
 
     private fun setupCharacters(characters: List<Character>) {
         binding.rvCharacters.layoutManager =

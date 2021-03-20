@@ -12,8 +12,8 @@ import com.ivanbarto.viewModelPractice.domain.Repo
  * These factories helps to create and deliver viewModels with their related parameters
  */
 
-class CharactersViewModelFactory(private val repo: Repo) : ViewModelProvider.Factory {
+class CharactersViewModelFactory(private val repo: Repo.Characters) : ViewModelProvider.Factory {
     override fun <T : ViewModel?> create(modelClass: Class<T>): T {
-        return modelClass.getConstructor(Repo::class.java).newInstance(repo)
+        return modelClass.getConstructor(Repo.Characters::class.java).newInstance(repo)
     }
 }

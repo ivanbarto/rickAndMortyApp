@@ -11,30 +11,15 @@ import com.ivanbarto.viewModelPractice.vo.Resource
  *  this class knows where fetch data, but it doesn't know where dispatch it.
  */
 
-class RepoImpl (private val dataSource: DataSource) : Repo {
-
+class CharacterRepo (private val dataSource: DataSource) : Repo.Characters {
     override fun getCharacters(): Resource<List<Character>> {
-       return dataSource.getCharacters()
+        return dataSource.getCharacters()
+
     }
 
     override fun getCharactersByName(name: String): Resource<List<Character>> {
         TODO("Not yet implemented")
     }
 
-    override fun getLocations(): Resource<List<Location>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getLocationsByName(name: String): Resource<List<Location>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getEpisodes(): Resource<List<Episode>> {
-        TODO("Not yet implemented")
-    }
-
-    override fun getEpisodesByName(name: String): Resource<List<Episode>> {
-        TODO("Not yet implemented")
-    }
 
 }

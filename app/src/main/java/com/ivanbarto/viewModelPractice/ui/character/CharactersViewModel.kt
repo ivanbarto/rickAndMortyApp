@@ -6,7 +6,7 @@ import com.ivanbarto.viewModelPractice.domain.Repo
 import com.ivanbarto.viewModelPractice.vo.Resource
 import kotlinx.coroutines.Dispatchers
 
-class CharactersViewModel(private val repo:Repo) : ViewModel() {
+class CharactersViewModel(private val repo:Repo.Characters) : ViewModel() {
 
     /**
      * this ViewModel doesn't know from where the data is fetched. It just query information.
@@ -16,8 +16,8 @@ class CharactersViewModel(private val repo:Repo) : ViewModel() {
 
     val fetchCharacters = liveData(Dispatchers.IO) {
         /**
-         * emit() is used to emit information so the observers era able to see that data broadcast
-         * and catch that data
+         * emit() is used to emit information, so the observers era able to see that data broadcast
+         * and catch it
          */
         emit(Resource.Loading())
         try {
