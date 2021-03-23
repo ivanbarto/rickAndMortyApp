@@ -2,6 +2,7 @@ package com.ivanbarto.viewModelPractice.domain
 
 import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.data.model.Episode
+import com.ivanbarto.viewModelPractice.data.model.GenericResponse
 import com.ivanbarto.viewModelPractice.data.model.Location
 import com.ivanbarto.viewModelPractice.vo.Resource
 
@@ -13,7 +14,7 @@ class Repo {
          * we need to get the data. Note that each get returns a Resource type object. For more info,
          * see Resource Class.
          */
-        fun getCharacters() : Resource<List<Character>> //TODO add filters
+        suspend fun getCharacters() : Resource<GenericResponse<Character>> //TODO add filters
         fun getCharactersByName(name : String) : Resource<List<Character>>
     }
 

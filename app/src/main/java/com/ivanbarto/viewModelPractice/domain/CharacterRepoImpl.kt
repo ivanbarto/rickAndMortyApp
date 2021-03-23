@@ -3,6 +3,7 @@ package com.ivanbarto.viewModelPractice.domain
 import com.ivanbarto.viewModelPractice.data.DataSource
 import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.data.model.Episode
+import com.ivanbarto.viewModelPractice.data.model.GenericResponse
 import com.ivanbarto.viewModelPractice.data.model.Location
 import com.ivanbarto.viewModelPractice.vo.Resource
 
@@ -11,10 +12,9 @@ import com.ivanbarto.viewModelPractice.vo.Resource
  *  this class knows where fetch data, but it doesn't know where dispatch it.
  */
 
-class CharacterRepo (private val dataSource: DataSource) : Repo.Characters {
-    override fun getCharacters(): Resource<List<Character>> {
+class CharacterRepoImpl (private val dataSource: DataSource) : Repo.Characters {
+    override suspend fun getCharacters(): Resource<GenericResponse<Character>> {
         return dataSource.getCharacters()
-
     }
 
     override fun getCharactersByName(name: String): Resource<List<Character>> {

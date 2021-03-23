@@ -14,7 +14,7 @@ import com.ivanbarto.viewModelPractice.R
 import com.ivanbarto.viewModelPractice.data.DataSource
 import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.databinding.FragmentCharactersBinding
-import com.ivanbarto.viewModelPractice.domain.CharacterRepo
+import com.ivanbarto.viewModelPractice.domain.CharacterRepoImpl
 import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
 import com.ivanbarto.viewModelPractice.utils.constants.Constants
 import com.ivanbarto.viewModelPractice.vo.Resource
@@ -42,7 +42,7 @@ class CharactersFragment : Fragment() {
      */
     private val charactersViewModel by viewModels<CharactersViewModel> {
         CharactersViewModelFactory(
-            CharacterRepo(
+            CharacterRepoImpl(
                 dataSource = DataSource()
             )
         )
@@ -98,7 +98,7 @@ class CharactersFragment : Fragment() {
                     }.show()
                 }
                 is Resource.Success -> {
-                    setupCharacters(result.data)
+                    setupCharacters(result.data.results)
                 }
                 is Resource.Failure -> {
                     Snackbar.make(
