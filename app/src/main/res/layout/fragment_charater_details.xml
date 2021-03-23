@@ -1,14 +1,170 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/bkg3"
     android:layout_height="match_parent"
     tools:context=".ui.character.detail.CharacterDetailsFragment">
 
-    <!-- TODO: Update blank fragment layout -->
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/hello_blank_fragment" />
+    <com.google.android.material.imageview.ShapeableImageView
+        android:id="@+id/ivCharacter"
+        android:layout_width="230dp"
+        android:layout_height="230dp"
+        android:layout_marginTop="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/default_placeholder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:shapeAppearanceOverlay="@style/radiusCornerImageView" />
 
-</FrameLayout>
+    <LinearLayout
+        android:padding="@dimen/medium_padding"
+        android:background="#81000000"
+        android:id="@+id/rlData"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/medium_padding"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/ivCharacter">
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:gravity=""
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Name" />
+            <TextView
+                android:id="@+id/tvName"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Origin" />
+            <TextView
+                android:id="@+id/tvOrigin"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Gender" />
+            <TextView
+                style="@style/regularTextViewWhite"
+                android:id="@+id/tvGender"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Location" />
+            <TextView
+                android:id="@+id/tvLocation"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:layout_weight="1">
+
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Status" />
+            <TextView
+                android:id="@+id/tvStatus"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Specie" />
+            <TextView
+                android:id="@+id/tvSpecie"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Type" />
+            <TextView
+                android:id="@+id/tvType"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+            <TextView
+                style="@style/boldTextViewWhite"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Dimension" />
+            <TextView
+                android:id="@+id/tvDimension"
+                style="@style/regularTextViewWhite"
+                android:layout_marginBottom="@dimen/medium_padding"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="-" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+    <Button
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/rlData"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableEnd="@drawable/ic_baseline_arrow_forward_24"
+        android:text="Character Appearances "/>
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+
+        android:layout_margin="@dimen/medium_padding"
+        android:src="@drawable/ic_baseline_favorite_24"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

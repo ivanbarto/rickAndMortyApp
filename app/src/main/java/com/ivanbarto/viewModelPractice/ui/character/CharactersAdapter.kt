@@ -63,14 +63,7 @@ class CharactersAdapter(
         BaseViewHolder<Character>(itemBinding.root) {
         //with is to avoid doing itemView.something
         override fun bind(item: Character): Unit = with(itemBinding) {
-            ivCharacter.load(item.image) {
-                placeholder(
-                    ContextCompat.getDrawable(
-                        context,
-                        R.drawable.ic_baseline_account_circle_24
-                    )
-                )
-            }
+            ivCharacter.load(item.image)
             tvCharacterName.text = item.name
             tvSpecie.text = item.species
         }

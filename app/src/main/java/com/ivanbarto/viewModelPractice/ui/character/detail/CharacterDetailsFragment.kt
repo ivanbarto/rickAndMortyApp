@@ -6,9 +6,19 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.ivanbarto.viewModelPractice.R
+import com.ivanbarto.viewModelPractice.data.model.Character
+import com.ivanbarto.viewModelPractice.utils.constants.Constants
 
 
 class CharacterDetailsFragment : Fragment() {
+
+//    private var character : Character?
+
+//    init {
+//        requireArguments().let {
+//           character = it.getParcelable(Constants.CHARACTER_KEY)
+//        }
+//    }
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
