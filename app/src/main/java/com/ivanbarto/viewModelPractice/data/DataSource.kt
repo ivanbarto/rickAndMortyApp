@@ -2,8 +2,6 @@ package com.ivanbarto.viewModelPractice.data
 
 import com.ivanbarto.viewModelPractice.data.model.Character
 import com.ivanbarto.viewModelPractice.data.model.GenericResponse
-import com.ivanbarto.viewModelPractice.data.model.Location
-import com.ivanbarto.viewModelPractice.data.model.Origin
 import com.ivanbarto.viewModelPractice.vo.Resource
 import com.ivanbarto.viewModelPractice.vo.RetrofitClient
 
@@ -25,7 +23,7 @@ class DataSource {
         /**
          * note that we return an Resource.Success, and we pass the type that the ws returns
          */
-        return Resource.Success(RetrofitClient.webService.getCharacters() )
+        return Resource.Success(RetrofitClient.webService.getCharacters(1) )
     }
 
 }

@@ -4,6 +4,8 @@ import android.content.Context
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.core.content.ContextCompat
+import androidx.paging.PagingDataAdapter
+import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.DiffUtil.DiffResult.NO_POSITION
 import androidx.recyclerview.widget.RecyclerView
 import coil.load
@@ -17,16 +19,15 @@ import com.ivanbarto.viewModelPractice.databinding.ItemSimpleListBinding
  */
 class CharactersAdapter(
     private val context: Context
-) :
-    RecyclerView.Adapter<BaseViewHolder<*>>() {
+) : PagingDataAdapter<Character, BaseViewHolder<*>>(CharacterComparator) {
 
-    private var characters = listOf<Character>()
+    //private var characters = listOf<Character>()
     lateinit var onCharacterClick: (character: Character) -> Unit
 
-    fun setCharacters(characters: List<Character>) {
-        this.characters = characters
-        notifyDataSetChanged()
-    }
+//    fun setCharacters(characters: List<Character>) {
+//        this.characters = characters
+//        notifyDataSetChanged()
+//    }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): BaseViewHolder<*> {
         val itemBinding = ItemSimpleListBinding.inflate(LayoutInflater.from(context), parent, false)
@@ -41,7 +42,7 @@ class CharactersAdapter(
         itemBinding.root.setOnClickListener {
             val position =
                 holder.adapterPosition.takeIf { it != NO_POSITION } ?: return@setOnClickListener
-            onCharacterClick(characters[position])
+            getItem(position)?.let { it1 -> onCharacterClick(it1) }
         }
 
         return holder
@@ -50,13 +51,13 @@ class CharactersAdapter(
     override fun onBindViewHolder(holder: BaseViewHolder<*>, position: Int) {
         // this is useful to set different view to the same recycler view
         when (holder) {
-            is CharacterViewHolder -> holder.bind(characters[position])
+            is CharacterViewHolder -> getItem(position)?.let { holder.bind(it) }
         }
     }
 
-    override fun getItemCount(): Int {
-        return characters.size
-    }
+//    override fun getItemCount(): Int {
+//        return itemCount
+//    }
 
     //inner is to kill the ViewHolder when the adapter is destroyed --> this prevents memory leaks
     inner class CharacterViewHolder(private val itemBinding: ItemSimpleListBinding) :
@@ -67,5 +68,13 @@ class CharactersAdapter(
             tvCharacterName.text = item.name
             tvSpecie.text = item.species
         }
+    }
+
+    object CharacterComparator : DiffUtil.ItemCallback<Character>() {
+        override fun areItemsTheSame(oldItem: Character, newItem: Character) =
+            oldItem.id == newItem.id
+
+        override fun areContentsTheSame(oldItem: Character, newItem: Character) =
+            oldItem == newItem
     }
 }

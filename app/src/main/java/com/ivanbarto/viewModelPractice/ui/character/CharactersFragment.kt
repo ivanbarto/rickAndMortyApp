@@ -7,7 +7,10 @@ import android.view.ViewGroup
 import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
+import androidx.lifecycle.lifecycleScope
 import androidx.navigation.fragment.findNavController
+import androidx.paging.PagingData
+import androidx.paging.PagingDataAdapter
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.snackbar.Snackbar
 import com.ivanbarto.viewModelPractice.R
@@ -18,6 +21,11 @@ import com.ivanbarto.viewModelPractice.domain.CharacterRepoImpl
 import com.ivanbarto.viewModelPractice.ui.factory.viewModels.CharactersViewModelFactory
 import com.ivanbarto.viewModelPractice.utils.constants.Constants
 import com.ivanbarto.viewModelPractice.vo.Resource
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers.IO
+import kotlinx.coroutines.flow.collectLatest
+import kotlinx.coroutines.launch
+import kotlin.coroutines.CoroutineContext
 
 
 class CharactersFragment : Fragment() {
@@ -61,11 +69,20 @@ class CharactersFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
+
+        setupView()
         /**
          *ViewModel Observers
          */
         setupObservers()
+    }
 
+    private fun setupView() {
+        binding.rvCharacters.layoutManager =
+            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
+        binding.rvCharacters.adapter = CharactersAdapter(requireContext()).also {
+            it.onCharacterClick = onCharacterClick
+        }
     }
 
 
@@ -74,7 +91,8 @@ class CharactersFragment : Fragment() {
          * viewLifecycleOwner is for attach the observer to this fragment lifecycle, so if the fragment
          * is detached, the observer is detached as well
          */
-        charactersViewModel.fetchCharacters.observe(viewLifecycleOwner, { result ->
+
+        charactersViewModel.fetchPaginatedCharacters.observe(viewLifecycleOwner, { result ->
             when (result) {
                 is Resource.Loading -> {
                     Snackbar.make(
@@ -98,7 +116,11 @@ class CharactersFragment : Fragment() {
                     }.show()
                 }
                 is Resource.Success -> {
-                    setupCharacters(result.data.results)
+                    CoroutineScope(IO).launch {
+                        charactersViewModel.characters.collectLatest { pagingData ->
+                            setupCharacters(pagingData)
+                        }
+                    }
                 }
                 is Resource.Failure -> {
                     Snackbar.make(
@@ -121,12 +143,9 @@ class CharactersFragment : Fragment() {
     }
 
 
-    private fun setupCharacters(characters: List<Character>) {
-        binding.rvCharacters.layoutManager =
-            LinearLayoutManager(requireContext(), LinearLayoutManager.VERTICAL, false)
-        binding.rvCharacters.adapter = CharactersAdapter(requireContext()).also {
-            it.onCharacterClick = onCharacterClick
-            it.setCharacters(characters)
+    private fun setupCharacters(characters: PagingData<Character>) {
+        CoroutineScope(IO).launch {
+            (binding.rvCharacters.adapter as CharactersAdapter).submitData(characters)
         }
     }
 
